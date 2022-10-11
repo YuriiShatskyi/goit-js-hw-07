@@ -3,8 +3,6 @@ import { galleryItems } from './gallery-items.js';
 
 console.log(galleryItems);
 
-const divPhotos = document.querySelector('.gallery');
-
 function createPhotoGallery(items) {
     return items.map(item =>
         `<div class="gallery__item">
@@ -19,6 +17,7 @@ function createPhotoGallery(items) {
 </div>`).join('');
 };
 
+const divPhotos = document.querySelector('.gallery');
 const addPhotoGallery = createPhotoGallery(galleryItems);
 
 divPhotos.insertAdjacentHTML("afterbegin", addPhotoGallery);
@@ -30,8 +29,16 @@ function onPhotoClick(event) {
     if (event.target.nodeName !== 'IMG') {
         return;
     }
-
-
-
-    console.log('ТОЛІК');
+  
+  const instance = basicLightbox.create(`
+    <img src="${event.target.dataset.source}">`);
+  instance.show();
+  
+    divPhotos.addEventListener("keydown", (event) => {
+    if (event.code === "Escape") {
+      instance.close();
+    }
+  });
 }
+
+
